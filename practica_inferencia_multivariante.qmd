@@ -1,0 +1,113 @@
+---
+title: "Ejercicios de estimación y contrastes multivariantes"
+subtitle: "23217- Análisis de Datos para el GMAT"
+date: today
+format:
+  html:
+    theme: lumen
+    toc: true
+    toc-depth: 3
+Rendering:
+    embed-resources: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Rubén López, Javi Peña y Sara Blanco
+
+
+
+## Problema 4
+
+Una empresa desea comprobar si el perfil medio de sus trabajadores en cuanto a  
+rendimiento ($X_1$) y satisfacción laboral ($X_2$) coincide con los valores de referencia establecidos por la dirección:
+
+$$
+\boldsymbol{\mu}_0 =
+\begin{pmatrix}
+70\\
+7
+\end{pmatrix}.
+$$
+
+Para ello, se selecciona una muestra aleatoria de tamaño $n$ de empleados y se registran sus puntuaciones en ambas variables. Se asume que el vector de observaciones
+
+$$
+\mathbf{X} = (X_1, X_2)^\top
+$$
+
+sigue una distribución normal bivariante
+
+$$
+\mathbf{X} \sim N_2(\boldsymbol{\mu}, \boldsymbol{\Sigma}),
+$$
+
+con matriz de covarianzas desconocida $\boldsymbol{\Sigma}$.
+
+Se desea contrastar la hipótesis
+
+$$
+H_0: \boldsymbol{\mu} = \boldsymbol{\mu}_0
+\quad \text{frente a} \quad
+H_1: \boldsymbol{\mu} \neq \boldsymbol{\mu}_0,
+$$
+
+(a) Genera una muestra simulada de tamaño $n$ de la distribución $N_2(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ (elige unos valores razonables para $\boldsymbol{\mu}$ y $\boldsymbol{\Sigma}$).
+
+Vamos a generar una muestra de tamaño $n=100$ que siga una distribución $N_2(\boldsymbol{\mu}, \boldsymbol{\Sigma})$\
+$\mu=(72, 6.5)$\
+$\Sigma=
+\begin{pmatrix}
+25 & 4 \\
+4 & 2
+\end{pmatrix}
+$
+
+```{r,warning=FALSE}
+library(mvtnorm)
+muestra=rmvnorm(100,mean=c(72,6.5),sigma=matrix((c(25,4,4,2)),ncol=2)) 
+plot(muestra,xlab="rendimiento",ylab="satisfacción laboral")
+```
+Estos valores tienen sentido, ya que el rendimiento suele tener más variabilidad que la satisfacción, las covrianzas son positivas, lo cual tiene sentido considerando nuestras variables rendimiento y satisfacción laboral. Además, la correlación en este caso es Cov(x1,x2)/sd(x1)*sd(x2) y da 0.56, o sea una correlación positiva entre ambas variables, que tiene sentido, ya que podemos deducir que cuanto más rendimiento hay, mayor satisfacción laboral tiene el empleado
+
+
+(b) Calcula la media muestral $\bar{\mathbf{X}}$, la matriz de covarianzas $\mathbf{S}$ y el estadístico de Hotelling $T^2$.
+
+```{r}
+n=100
+p=2
+mu=c(72,6.5)
+medias=colMeans(muestra)
+medias
+covarianzas=cov(muestra)
+covarianzas
+
+T=n*t(medias-mu)%*%solve(covarianzas)%*%(medias-mu) 
+T
+#estadístico de Hotelling
+```
+(c) Transforma $T^2$ a la escala F usando la distribución $F_{p,\,n-p}$ y calcula el p-valor del contraste para un nivel de significación $\alpha = 0.05$.
+
+Sabemos que $\frac{n-p}{p}(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx F_{n-p}^{p}$.\\
+También sabemos que $n(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx T^2(p,n)$
+En este caso, n=100, p=2. Por lo tanto:\
+```{r}
+F=98*T/(2*100)
+F=as.numeric(F)
+
+
+pvalor=1-pf(F,p,n-p)
+pvalor
+```
+(d) Decide si se rechaza o no $H_0$.
+
+Como el p-valor es mayor que $\alpha$, aceptamos la hipótesis nula H0 de que $\mu=\mu_0$.
+
+
+
+(e) Interpreta el resultado en el contexto del problema: ¿parece que el vector medio real de la población difiere de $\boldsymbol{\mu}_0$?
+
+En el contexto del problema, como hemos aceptado la hipótesis nula, quiere decir que las medias de las variables $X_1$ y $X_2$ son muy cercanas a los valores de $\mu_0$.
+
