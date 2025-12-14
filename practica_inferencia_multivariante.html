@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-11-12">
+<meta name="dcterms.date" content="2025-12-14">
 
 <title>Ejercicios de estimación y contrastes multivariantes</title>
 <style>
@@ -129,7 +129,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 12, 2025</p>
+      <p class="date">December 14, 2025</p>
     </div>
   </div>
   
@@ -201,27 +201,28 @@ H_1: \boldsymbol{\mu} \neq \boldsymbol{\mu}_0,
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>medias<span class="ot">=</span><span class="fu">colMeans</span>(muestra)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>medias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 71.896263  6.213667</code></pre>
+<pre><code>[1] 71.887915  6.773767</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>covarianzas<span class="ot">=</span><span class="fu">cov</span>(muestra)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>covarianzas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         [,1]     [,2]
-[1,] 23.54405 4.222350
-[2,]  4.22235 2.350023</code></pre>
+<pre><code>          [,1]     [,2]
+[1,] 30.266155 4.102578
+[2,]  4.102578 2.020435</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>T<span class="ot">=</span>n<span class="sc">*</span><span class="fu">t</span>(medias<span class="sc">-</span>mu)<span class="sc">%*%</span><span class="fu">solve</span>(covarianzas)<span class="sc">%*%</span>(medias<span class="sc">-</span>mu) </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1]
-[1,] 4.545914</code></pre>
+[1,] 5.743622</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#estadístico de Hotelling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="a">
 <li>Transforma <span class="math inline">\(T^2\)</span> a la escala F usando la distribución <span class="math inline">\(F_{p,\,n-p}\)</span> y calcula el p-valor del contraste para un nivel de significación <span class="math inline">\(\alpha = 0.05\)</span>.</li>
 </ol>
-<p>Sabemos que <span class="math inline">\(\frac{n-p}{p}(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx F_{n-p}^{p}\)</span>.\ También sabemos que <span class="math inline">\(n(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx T^2(p,n)\)</span> En este caso, n=100, p=2. Por lo tanto:\</p>
+<p>Sabemos que <span class="math inline">\(\frac{n-p}{p}(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx F_{n-p}^{p}\)</span>.\ También sabemos que <span class="math inline">\(n(\bar{x}-\mu)^TS^{-1}(\bar{x}-\mu)\approx T^2(p,n)\)</span> En este caso, n=100, p=2. Por lo tanto:<br>
+</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>F<span class="ot">=</span><span class="dv">98</span><span class="sc">*</span>T<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="dv">100</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>F<span class="ot">=</span><span class="fu">as.numeric</span>(F)</span>
@@ -230,7 +231,7 @@ H_1: \boldsymbol{\mu} \neq \boldsymbol{\mu}_0,
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pvalor<span class="ot">=</span><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(F,p,n<span class="sc">-</span>p)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>pvalor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.113228</code></pre>
+<pre><code>[1] 0.06479552</code></pre>
 </div>
 </div>
 <ol start="4" type="a">
